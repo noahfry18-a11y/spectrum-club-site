@@ -307,8 +307,6 @@ textarea { resize: vertical; }
 .fine { width: 100%; margin: 0; padding-top: 22px; border-top: 1px solid var(--line); color: var(--ink-2); font-size: .9rem; }
 .fine a { color: var(--ink-2); }
 
-.preview-note { background: var(--navy); color: #dfe7ff; text-align: center; font-size: .85rem; padding: 7px 16px; }
-.preview-note b { color: var(--yellow); }
 
 /* reveal on scroll */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }

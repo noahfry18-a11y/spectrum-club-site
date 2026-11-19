@@ -197,12 +197,4 @@
   })();
 
   $("#year").textContent = new Date().getFullYear();
-
-  /* ---------- preview notice (disappears once a real endpoint is set) ---------- */
-  if (!CFG.API_URL) {
-    const note = document.createElement("div");
-    note.className = "preview-note";
-    note.innerHTML = "<b>Design preview</b> · Not live yet. Sign-ups on this page are only saved in your browser.";
-    document.body.prepend(note);
-  }
 })();

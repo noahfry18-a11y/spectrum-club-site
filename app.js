@@ -74,18 +74,17 @@
   const bar = $(".progress .bar", form);
   const steps = $$(".step", form);
   const goTo = n => {
-    steps.forEach(s => s.classList.toggle("is-active", +s.dataset.step === n));
-    bar.style.width = `${(n / 3) * 100}%`;
-    bar.style.backgroundPosition = `${(n - 1) * 50}% 0`;
+    steps.forEach(s => s.classList.toggle("is-active", s.dataset.step === String(n)));
+    const pct = n === "denied" ? 100 : (n / 3) * 100;
+    bar.style.width = `${pct}%`;
+    bar.style.backgroundPosition = `${n === "denied" ? 0 : (n - 1) * 50}% 0`;
     err.textContent = "";
-    const first = $(`.step[data-step="${n}"] input, .step[data-step="${n}"] button`, form);
-    if (n > 1 && first) first.focus({ preventScroll: true });
+    const first = $(`.step[data-step="${n}"] input:not([type=hidden]), .step[data-step="${n}"] button`, form);
+    if (n !== 1 && first) first.focus({ preventScroll: true });
   };
 
-  const forSel = $("#j-for");
-  forSel.addEventListener("change", () => {
-    $("#participant-field").classList.toggle("hidden", forSel.value === "Myself");
-  });
+  const spectrumChoices = $(".choices", form);
+  $$("input[name=onSpectrum]", form).forEach(r => r.addEventListener("change", () => spectrumChoices.classList.remove("invalid")));
 
   // phone formatting (US)
   const phone = $("#j-phone");
@@ -98,16 +97,23 @@
   $("[data-next]", form).addEventListener("click", () => {
     const fields = [$("#j-name"), $("#j-email"), $("#j-phone")];
     const results = fields.map(check);
-    if (results.every(Boolean)) {
-      $("#j-sign").placeholder = $("#j-name").value.trim();
-      goTo(2);
-    } else {
-      err.textContent = !results[1] ? "Please enter a valid email address." : !results[2] ? "Please enter a 10-digit phone number." : "Please fill in your name.";
+    if (!results.every(Boolean)) {
+      err.textContent = !results[0] ? "Please fill in your name." : !results[1] ? "Please enter a valid email address." : "Please enter a 10-digit phone number.";
       fields[results.indexOf(false)].focus();
+      return;
     }
+    const answer = $("input[name=onSpectrum]:checked", form);
+    if (!answer) {
+      spectrumChoices.classList.add("invalid");
+      err.textContent = "Please answer: are you on the autism spectrum?";
+      return;
+    }
+    if (answer.value !== "Yes") { goTo("denied"); return; } // membership is for adults on the spectrum
+    $("#j-sign").placeholder = $("#j-name").value.trim();
+    goTo(2);
   });
   $("[data-back]", form).addEventListener("click", () => goTo(1));
-  $("[data-reset]", form).addEventListener("click", () => { form.reset(); $("#participant-field").classList.add("hidden"); goTo(1); });
+  $("[data-restart]", form).addEventListener("click", () => { form.reset(); spectrumChoices.classList.remove("invalid"); goTo(1); });
 
   form.addEventListener("submit", async e => {
     e.preventDefault();
@@ -117,13 +123,16 @@
     const btn = $("button[type=submit]", form);
     btn.disabled = true; btn.textContent = "Signing you up…";
     const data = Object.fromEntries(new FormData(form));
+    if (data.onSpectrum !== "Yes") { goTo("denied"); btn.disabled = false; btn.textContent = "Complete sign-up"; return; }
     data.agreed = true;
+    data.mediaConsent = $("#j-media").checked ? "Yes" : "No";
     data.waiverSignedAt = new Date().toISOString();
     try {
       await submit("member", "spectrum_members", data);
       $("#done-name").textContent = data.name.split(" ")[0] || "friend";
       goTo(3);
-    } catch {
+    } catch (e2) {
+      if (e2.message === "not-eligible") { goTo("denied"); return; }
       err.textContent = "Something went wrong sending your sign-up. Please try again, or contact us below.";
     } finally {
       btn.disabled = false; btn.textContent = "Complete sign-up";
@@ -151,6 +160,41 @@
       btn.disabled = false; btn.textContent = "Send message";
     }
   });
+
+  /* ---------- events (managed by the club on admin.html) ---------- */
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const toDate = s => { const [y, m, d] = String(s).split("-").map(Number); return new Date(y, (m || 1) - 1, d || 1); };
+
+  async function loadEvents() {
+    if (!CFG.API_URL) return store.read("spectrum_events");
+    const res = await fetch(CFG.API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "events" }) });
+    const out = await res.json();
+    if (!out.ok) throw new Error(out.error);
+    return out.events || [];
+  }
+
+  (async () => {
+    const list = $("#events-list");
+    if (!list) return;
+    let events = [];
+    try { events = await loadEvents(); } catch { /* fall through to the empty state */ }
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const upcoming = events.filter(e => e.date && toDate(e.date) >= today).sort((a, b) => toDate(a.date) - toDate(b.date));
+    if (!upcoming.length) {
+      list.innerHTML = `<p class="events-empty">No upcoming events posted yet. Check back soon, or follow us on <a href="https://www.facebook.com/people/The-Spectrum-Club-Of-NWI/61595570840638/" target="_blank" rel="noopener">Facebook</a> for the latest!</p>`;
+      return;
+    }
+    list.innerHTML = upcoming.map(e => {
+      const d = toDate(e.date);
+      const month = d.toLocaleDateString(undefined, { month: "short" });
+      const weekday = d.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+      const meta = [weekday, e.time, e.location].filter(Boolean).map(esc).join(" · ");
+      return `<article class="event">
+        <div class="date" aria-hidden="true"><small>${esc(month)}</small><b>${d.getDate()}</b></div>
+        <div><h3>${esc(e.title)}</h3><p class="meta">${meta}</p>${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}</div>
+      </article>`;
+    }).join("");
+  })();
 
   $("#year").textContent = new Date().getFullYear();
 

@@ -35,6 +35,7 @@
       <nav id="nav-links" class="nav-links" aria-label="Main">
         <a href="#about">About Us</a>
         <a href="#team">Our Team</a>
+        <a href="#events">Events</a>
         <a href="#membership">Membership</a>
         <a href="#contact">Contact</a>
         <a href="#membership" class="btn btn-sm">Join the Club</a>
@@ -145,7 +146,7 @@
           <article class="member m-red">
             <div class="avatar"><img src="assets/team/kathleen.jpg" alt="Kathleen Jatkiewicz" style="object-position: 45% 40%" /></div>
             <h3>Kathleen Jatkiewicz</h3>
-            <p class="role">Parent &amp; Advocate</p>
+            <p class="role">Board Member</p>
             <p class="bio">A dedicated mother, advocate, and supporter of individuals on the autism spectrum, Kathleen's passion comes from raising her son, Zachary, who is on the spectrum.</p>
             <details class="more">
               <summary>Read Kathleen's story</summary>
@@ -158,9 +159,30 @@
           <article class="member m-green">
             <div class="avatar"><img src="assets/team/dawn.jpg" alt="Dawn Kazmierski" style="object-position: 50% 30%" /></div>
             <h3>Dawn Kazmierski</h3>
-            <p class="role">Team Member</p>
-            <p class="bio">Bio coming soon.</p>
+            <p class="role">Founder &amp; Board Member</p>
+            <p class="bio">"Starting this club is deeply personal to me and brings a longtime dream to life. Friendships are important."</p>
+            <details class="more">
+              <summary>Read Dawn's story</summary>
+              <p>Hi! I'm Dawn Kazmierski, and I'm thrilled to be the Founder and Board Member of The Spectrum Club of NWI. Starting this club is deeply personal to me and brings a longtime dream to life. Friendships are important. I'm passionate about creating fun, low-stress gatherings, from board game nights to casual meet-ups, where autistic adults can connect naturally and make lasting friends.</p>
+              <p>Over the past 14+ years, I've spent my time volunteering across all of my boys' schools, as well as several years working directly with students as a Recess Aide at a local elementary school.</p>
+              <p>Outside of the club, I enjoy spending time with my family, traveling, listening to music, all things Disney and Universal, and plenty of other fun, silly adventures!</p>
+            </details>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVENTS ============ -->
+    <!-- Events are added by the club on admin.html → Events tab -->
+    <section id="events" class="section events">
+      <div class="wrap">
+        <div class="section-head center">
+          <p class="kicker">Events</p>
+          <h2>Come hang out with us.</h2>
+          <p class="sub">Board game nights, casual meet-ups, and more: fun, low-stress gatherings where friendships happen naturally.</p>
+        </div>
+        <div class="events-list" id="events-list" aria-live="polite">
+          <p class="events-empty">Loading events…</p>
         </div>
       </div>
     </section>
@@ -174,7 +196,7 @@
           <p>Become a member to stay in the loop on get-togethers, events, and everything happening in our community.</p>
           <ul class="perks">
             <li><span class="tick">✓</span> First to hear about events &amp; meetups</li>
-            <li><span class="tick">✓</span> Connect with local families &amp; friends</li>
+            <li><span class="tick">✓</span> Make real friends at fun, low-stress meetups</li>
             <li><span class="tick">✓</span> Always free — no dues, ever</li>
           </ul>
           <div class="steps-legend" aria-hidden="true">
@@ -205,18 +227,14 @@
                   <input id="j-phone" name="phone" type="tel" autocomplete="tel" required />
                 </div>
               </div>
-              <div class="field">
-                <label for="j-for">Signing up for</label>
-                <select id="j-for" name="signupFor">
-                  <option>Myself</option>
-                  <option>My child</option>
-                  <option>Another family member</option>
-                  <option>Our whole family</option>
-                </select>
-              </div>
-              <div class="field hidden" id="participant-field">
-                <label for="j-participant">Participant name(s)</label>
-                <input id="j-participant" name="participant" type="text" />
+              <input type="hidden" name="signupFor" value="Myself" />
+              <p class="for-note"><svg aria-hidden="true"><use href="#piece" /></svg> Signing up for myself</p>
+              <div class="field" role="radiogroup" aria-labelledby="q-spectrum">
+                <p class="q" id="q-spectrum">Are you on the autism spectrum?</p>
+                <div class="choices">
+                  <label class="choice"><input type="radio" name="onSpectrum" value="Yes" /> <span>Yes</span></label>
+                  <label class="choice"><input type="radio" name="onSpectrum" value="No" /> <span>No</span></label>
+                </div>
               </div>
               <button type="button" class="btn btn-block" data-next>Continue to waiver <span aria-hidden="true">→</span></button>
             </fieldset>
@@ -229,14 +247,17 @@
                 <p>In consideration of being permitted to participate in activities, events, and programs organized by The Spectrum Club of NWI ("the Club"), I, the undersigned, acknowledge and agree to the following:</p>
                 <p><b>1. Voluntary participation.</b> Participation in Club activities is voluntary. I understand that activities may involve physical activity and travel, and I accept the risks involved.</p>
                 <p><b>2. Release.</b> I release the Club, its organizers, volunteers, and partners from any and all claims arising from participation, except in cases of gross negligence.</p>
-                <p><b>3. Medical.</b> I authorize Club organizers to seek emergency medical treatment for the participant if I cannot be reached.</p>
-                <p><b>4. Photos.</b> I understand photos may be taken at events and may be shared on Club channels. I may opt out by notifying an organizer.</p>
-                <p><b>5. Guardianship.</b> If signing on behalf of a minor or dependent, I confirm I am their parent or legal guardian.</p>
+                <p><b>3. Medical.</b> I authorize Club organizers to seek emergency medical treatment for me if it is needed during a Club activity.</p>
+                <p><b>4. Photos &amp; social media.</b> I understand photos and videos may be taken at Club events. If I give permission below, photos and videos that include me may be shared on the Club's website and social media pages (such as Facebook). I can change my mind at any time by telling an organizer.</p>
                 <p class="muted">Sample wording for the design preview. The club's official waiver will replace this text.</p>
               </div>
               <label class="check">
                 <input type="checkbox" id="j-agree" name="agreed" required />
                 <span>I have read and agree to the waiver above.</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" id="j-media" name="mediaConsent" value="Yes" />
+                <span>I give permission for photos and videos of me to be shared on the Club's website and social media. <em class="opt">(optional)</em></span>
               </label>
               <div class="field">
                 <label for="j-sign">Type your full name to sign</label>
@@ -254,7 +275,18 @@
               </div>
               <h3>Welcome to the club, <span id="done-name">friend</span>!</h3>
               <p>You're officially a member. We'll be in touch soon with upcoming events.</p>
-              <button type="button" class="btn btn-ghost" data-reset>Sign up someone else</button>
+              <a href="#events" class="btn btn-ghost">See upcoming events</a>
+            </div>
+
+            <div class="step done denied" data-step="denied" role="status" aria-live="polite">
+              <div class="confetti" aria-hidden="true"><svg><use href="#piece" /></svg></div>
+              <h3>Thank you for your interest!</h3>
+              <p>Membership in The Spectrum Club of NWI is for adults on the autism spectrum, so we aren't able to complete this sign-up.</p>
+              <p>If you're a family member, friend, or supporter, we'd still love to hear from you. Send us a note below.</p>
+              <div class="btn-row center">
+                <button type="button" class="btn btn-ghost" data-restart>← Start over</button>
+                <a href="#contact" class="btn">Contact us</a>
+              </div>
             </div>
             <p class="form-error" role="alert"></p>
           </form>
@@ -274,12 +306,10 @@
               <span class="ico ico-blue" aria-hidden="true">✉</span>
               <span><small>Email</small>info@thespectrumclubofnwi.com</span>
             </a>
-            <!-- PHONE: uncomment and fill in once the club sends their number
-            <a class="c-card" href="tel:+1XXXXXXXXXX">
+            <a class="c-card" href="tel:+12192072592">
               <span class="ico ico-green" aria-hidden="true">☏</span>
-              <span><small>Phone</small>(XXX) XXX-XXXX</span>
+              <span><small>Phone</small>(219) 207-2592</span>
             </a>
-            -->
             <a class="c-card" href="https://www.facebook.com/people/The-Spectrum-Club-Of-NWI/61595570840638/" target="_blank" rel="noopener">
               <span class="ico ico-purple" aria-hidden="true">f</span>
               <span><small>Facebook</small>The Spectrum Club Of NWI</span>
@@ -319,6 +349,7 @@
       <nav aria-label="Footer">
         <a href="#about">About Us</a>
         <a href="#team">Our Team</a>
+        <a href="#events">Events</a>
         <a href="#membership">Membership</a>
         <a href="#contact">Contact</a>
       </nav>

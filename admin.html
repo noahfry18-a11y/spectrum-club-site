@@ -21,11 +21,11 @@
     .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
     .topbar .actions { display: flex; gap: 10px; flex-wrap: wrap; }
     .banner { background: #fff6dc; border: 2px solid #ffe08a; color: #6b5200; border-radius: 16px; padding: 12px 18px; font-size: .95rem; margin-bottom: 24px; }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 28px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 28px; }
     .stat { background: #fff; border-radius: 22px; padding: 22px 24px; box-shadow: var(--shadow); border-top: 6px solid var(--c, var(--blue)); }
     .stat small { display: block; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; font-size: .78rem; color: var(--ink-2); }
     .stat b { font-family: var(--display); font-size: 2.8rem; color: var(--navy); line-height: 1.1; }
-    .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
     .tab { font: inherit; font-weight: 800; border: 2px solid var(--line); background: #fff; color: var(--ink); padding: 8px 18px; border-radius: 999px; cursor: pointer; }
     .tab[aria-selected=true] { background: var(--navy); border-color: var(--navy); color: #fff; }
     .panel { background: #fff; border-radius: 22px; box-shadow: var(--shadow); padding: 20px; }
@@ -36,9 +36,31 @@
     td { padding: 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
     tr:hover td { background: var(--cream); }
     .pill { display: inline-block; font-size: .8rem; font-weight: 800; padding: 2px 10px; border-radius: 999px; background: #e3f6e9; color: var(--green); }
+    .pill.no { background: #f1f1f4; color: var(--ink-2); }
     .empty { text-align: center; color: var(--ink-2); padding: 40px 10px; }
     .updated { color: var(--ink-2); font-size: .85rem; margin: 12px 0 0; }
-    @media (max-width: 640px) { .stats { grid-template-columns: 1fr; } }
+    .hidden-panel { display: none; }
+
+    /* events editor */
+    .ev-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 28px; align-items: start; }
+    .ev-form h2, .ev-list h2 { font-size: 1.4rem; margin-bottom: 14px; }
+    .ev-form .row { grid-template-columns: 1fr 1fr; }
+    .ev-item { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .ev-item:last-child { border-bottom: 0; }
+    .ev-item .d { flex: none; width: 58px; height: 62px; border-radius: 14px; background: var(--blue); color: #fff; display: grid; place-content: center; text-align: center; font-family: var(--display); }
+    .ev-item .d small { font-size: .75rem; text-transform: uppercase; }
+    .ev-item .d b { font-size: 1.5rem; line-height: 1; }
+    .ev-item.past .d { background: #b8bdcc; }
+    .ev-item .info { flex: 1; min-width: 0; }
+    .ev-item h3 { font-size: 1.1rem; margin: 0 0 2px; }
+    .ev-item p { margin: 0; color: var(--ink-2); font-size: .92rem; }
+    .del { font: inherit; font-weight: 800; font-size: .85rem; background: none; border: 2px solid var(--line); color: var(--ink-2); border-radius: 999px; padding: 4px 12px; cursor: pointer; white-space: nowrap; }
+    .del:hover { border-color: var(--red); color: var(--red); }
+    .del.confirm { background: var(--red); border-color: var(--red); color: #fff; }
+    .ev-ok { color: var(--green); font-weight: 800; margin: 12px 0 0; }
+    .ev-ok:empty { display: none; }
+    @media (max-width: 860px) { .stats { grid-template-columns: 1fr 1fr; } .ev-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .ev-form .row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -46,7 +68,7 @@
     <form class="card" id="gate-form">
       <img src="assets/logo.jpg" alt="The Spectrum Club of NWI logo" />
       <h1>Club Admin</h1>
-      <p>Enter the admin password to view members.</p>
+      <p>Enter the admin password to manage members and events.</p>
       <div class="field">
         <label for="pass">Password</label>
         <input id="pass" type="password" autocomplete="current-password" required />
@@ -69,23 +91,64 @@
       </div>
 
       <div class="banner" id="demo-banner" hidden>
-        <b>Demo mode:</b> the sign-ups shown here are only saved in this browser. Once the Google Sheet is connected (see SETUP.md), this dashboard shows every real member.
+        <b>Demo mode:</b> members and events shown here are only saved in this browser. Once the Google Sheet is connected (see SETUP.md), this dashboard manages the real site.
       </div>
 
       <div class="stats">
         <div class="stat" style="--c: var(--blue)"><small>Total members</small><b id="s-total">0</b></div>
         <div class="stat" style="--c: var(--green)"><small>Joined this month</small><b id="s-month">0</b></div>
+        <div class="stat" style="--c: var(--red)"><small>Upcoming events</small><b id="s-events">0</b></div>
         <div class="stat" style="--c: var(--purple)"><small>Messages</small><b id="s-msgs">0</b></div>
       </div>
 
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" aria-selected="true" data-tab="members">Members</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="events">Events</button>
         <button class="tab" role="tab" aria-selected="false" data-tab="messages">Messages</button>
       </div>
-      <div class="panel">
+
+      <div class="panel" id="table-panel">
         <input type="search" id="q" placeholder="Search by name, email, or phone…" aria-label="Search" />
         <div class="table-wrap"><table id="table"></table></div>
       </div>
+
+      <div class="panel hidden-panel" id="events-panel">
+        <div class="ev-grid">
+          <form class="ev-form" id="ev-form" novalidate>
+            <h2>Add an event</h2>
+            <div class="field">
+              <label for="ev-title">Event name</label>
+              <input id="ev-title" name="title" type="text" placeholder="Board Game Night" required />
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="ev-date">Date</label>
+                <input id="ev-date" name="date" type="date" required />
+              </div>
+              <div class="field">
+                <label for="ev-time">Time</label>
+                <input id="ev-time" name="time" type="text" placeholder="6:30 – 8:30 PM" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="ev-loc">Location</label>
+              <input id="ev-loc" name="location" type="text" placeholder="Place name, city" />
+            </div>
+            <div class="field">
+              <label for="ev-desc">Details</label>
+              <textarea id="ev-desc" name="description" rows="4" placeholder="What to expect, what to bring, cost (if any)…"></textarea>
+            </div>
+            <button class="btn btn-block" id="ev-add">Add event to website</button>
+            <p class="form-error" id="ev-err" role="alert"></p>
+            <p class="ev-ok" id="ev-ok" role="status"></p>
+          </form>
+          <div class="ev-list">
+            <h2>Your events</h2>
+            <div id="ev-items"></div>
+          </div>
+        </div>
+      </div>
+
       <p class="updated" id="updated"></p>
     </div>
   </section>
@@ -94,46 +157,72 @@
   <script>
   (() => {
     const API = (window.SITE_CONFIG || {}).API_URL;
-    const DEMO_PASS = "spectrum";
+    const DEMO_PASS = "spectrum"; // demo mode only; the real password lives in Google (SETUP.md)
     const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
     const ss = {
       get: k => { try { return sessionStorage.getItem(k); } catch { return null; } },
       set: (k, v) => { try { sessionStorage.setItem(k, v); } catch {} },
       del: k => { try { sessionStorage.removeItem(k); } catch {} },
     };
-    const readLocal = k => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } };
+    const local = {
+      read: k => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } },
+      write: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+    };
     const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     const fmt = iso => iso ? new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) : "";
+    const toDate = s => { const [y, m, d] = String(s).split("-").map(Number); return new Date(y, (m || 1) - 1, d || 1); };
+    const today = () => { const t = new Date(); t.setHours(0, 0, 0, 0); return t; };
 
     let tab = "members";
-    let db = { members: [], messages: [] };
+    let key = "";
+    let db = { members: [], messages: [], events: [] };
 
     const cols = {
-      members: [["name", "Name"], ["email", "Email"], ["phone", "Phone"], ["signupFor", "Signing up for"], ["participant", "Participant(s)"], ["waiver", "Waiver"], ["submittedAt", "Joined"]],
+      members: [["name", "Name"], ["email", "Email"], ["phone", "Phone"], ["onSpectrum", "On the spectrum"], ["mediaConsent", "Photo / social OK"], ["waiver", "Waiver"], ["submittedAt", "Joined"]],
       messages: [["name", "Name"], ["email", "Email"], ["message", "Message"], ["submittedAt", "Received"]],
     };
 
-    /* Load data: from the Google Sheet when connected, otherwise this browser (demo). */
-    async function load(key) {
-      if (!API) {
-        if (key !== DEMO_PASS) throw new Error("unauthorized");
-        return { members: readLocal("spectrum_members"), messages: readLocal("spectrum_messages") };
-      }
-      const res = await fetch(API, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ action: "list", key }),
-      });
+    /* ---------- data access: Google Sheet when connected, this browser in demo mode ---------- */
+    async function api(body) {
+      const res = await fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ ...body, key }) });
       const out = await res.json();
       if (!out.ok) throw new Error(out.error || "failed");
-      return { members: out.members || [], messages: out.messages || [] };
+      return out;
+    }
+    async function loadAll(k) {
+      if (!API) {
+        if (k !== DEMO_PASS) throw new Error("unauthorized");
+        return { members: local.read("spectrum_members"), messages: local.read("spectrum_messages"), events: local.read("spectrum_events") };
+      }
+      key = k;
+      const out = await api({ action: "list" });
+      return { members: out.members || [], messages: out.messages || [], events: out.events || [] };
+    }
+    async function addEvent(ev) {
+      if (!API) { const all = local.read("spectrum_events"); all.push({ ...ev, id: String(Date.now()) }); local.write("spectrum_events", all); return; }
+      await api({ action: "addEvent", event: ev });
+    }
+    async function deleteEvent(id) {
+      if (!API) { local.write("spectrum_events", local.read("spectrum_events").filter(e => String(e.id) !== String(id))); return; }
+      await api({ action: "deleteEvent", id });
     }
 
+    /* ---------- rendering ---------- */
     function render() {
       const now = new Date();
+      const upcoming = db.events.filter(e => e.date && toDate(e.date) >= today());
       $("#s-total").textContent = db.members.length;
       $("#s-month").textContent = db.members.filter(m => { const d = new Date(m.submittedAt); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); }).length;
+      $("#s-events").textContent = upcoming.length;
       $("#s-msgs").textContent = db.messages.length;
+
+      $("#table-panel").classList.toggle("hidden-panel", tab === "events");
+      $("#events-panel").classList.toggle("hidden-panel", tab !== "events");
+      $("#export").style.display = tab === "events" ? "none" : "";
+      $("#updated").textContent = `Last updated ${new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`;
+
+      if (tab === "events") return renderEvents();
 
       const q = $("#q").value.trim().toLowerCase();
       const rows = db[tab].slice().reverse().filter(r => !q || JSON.stringify(r).toLowerCase().includes(q));
@@ -142,56 +231,112 @@
       const body = rows.length
         ? rows.map(r => `<tr>${c.map(([k]) => {
             if (k === "waiver") return `<td><span class="pill">✓ Signed</span><br><small>${esc(r.signature)}</small></td>`;
+            if (k === "mediaConsent" || k === "onSpectrum") return `<td><span class="pill ${r[k] === "Yes" ? "" : "no"}">${r[k] === "Yes" ? "Yes" : "No"}</span></td>`;
             if (k === "submittedAt") return `<td>${fmt(r[k])}</td>`;
             if (k === "email") return `<td><a href="mailto:${esc(r[k])}">${esc(r[k])}</a></td>`;
             return `<td>${esc(r[k]) || "—"}</td>`;
           }).join("")}</tr>`).join("")
         : `<tr><td class="empty" colspan="${c.length}">${q ? "No matches." : tab === "members" ? "No members yet. Sign-ups will appear here." : "No messages yet."}</td></tr>`;
       $("#table").innerHTML = head + `<tbody>${body}</tbody>`;
-      $("#updated").textContent = `Last updated ${new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`;
     }
 
-    async function unlock(key, btn) {
+    function renderEvents() {
+      const list = db.events.slice().sort((a, b) => toDate(a.date) - toDate(b.date));
+      const t = today();
+      $("#ev-items").innerHTML = list.length ? list.map(e => {
+        const d = toDate(e.date);
+        const past = d < t;
+        return `<div class="ev-item ${past ? "past" : ""}">
+          <div class="d"><small>${esc(d.toLocaleDateString(undefined, { month: "short" }))}</small><b>${d.getDate()}</b></div>
+          <div class="info"><h3>${esc(e.title)}</h3><p>${[past ? "Past event" : "", e.time, e.location].filter(Boolean).map(esc).join(" · ")}</p></div>
+          <button class="del" data-id="${esc(e.id)}">Delete</button>
+        </div>`;
+      }).join("") : `<p class="empty">No events yet. Add your first one and it will show on the website right away.</p>`;
+    }
+
+    async function refresh(btn) {
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = "Loading…";
+      try { db = await loadAll(ss.get("spectrum_admin_key") || ""); render(); }
+      finally { btn.disabled = false; btn.textContent = label; }
+    }
+
+    async function unlock(k, btn) {
       const label = btn.textContent;
       btn.disabled = true; btn.textContent = "Loading…";
       try {
-        db = await load(key);
-        ss.set("spectrum_admin_key", key);
+        db = await loadAll(k);
+        ss.set("spectrum_admin_key", k);
         $("#gate").style.display = "none";
         $("#dash").classList.add("on");
         $("#demo-banner").hidden = !!API;
         render();
-        return true;
       } catch (err) {
         ss.del("spectrum_admin_key");
-        $(".form-error").textContent = err.message === "unauthorized"
+        $("#gate .form-error").textContent = err.message === "unauthorized"
           ? "That password isn't right."
           : "Couldn't reach the member list. Check your connection and try again.";
-        return false;
       } finally {
         btn.disabled = false; btn.textContent = label;
       }
     }
 
+    /* ---------- wiring ---------- */
     const saved = ss.get("spectrum_admin_key");
     if (saved) unlock(saved, $("#gate-btn"));
 
     $("#gate-form").addEventListener("submit", e => {
       e.preventDefault();
-      $(".form-error").textContent = "";
+      $("#gate .form-error").textContent = "";
       unlock($("#pass").value, $("#gate-btn"));
     });
-    $("#refresh").addEventListener("click", e => unlock(ss.get("spectrum_admin_key") || "", e.currentTarget));
+    $("#refresh").addEventListener("click", e => refresh(e.currentTarget));
     $("#logout").addEventListener("click", () => { ss.del("spectrum_admin_key"); location.reload(); });
-    document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
+    $$(".tab").forEach(t => t.addEventListener("click", () => {
       tab = t.dataset.tab;
-      document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x === t));
+      $$(".tab").forEach(x => x.setAttribute("aria-selected", x === t));
       render();
     }));
     $("#q").addEventListener("input", render);
+
+    $("#ev-form").addEventListener("submit", async e => {
+      e.preventDefault();
+      const f = Object.fromEntries(new FormData(e.target));
+      $("#ev-err").textContent = ""; $("#ev-ok").textContent = "";
+      if (!f.title.trim()) { $("#ev-err").textContent = "Please give the event a name."; $("#ev-title").focus(); return; }
+      if (!f.date) { $("#ev-err").textContent = "Please pick a date."; $("#ev-date").focus(); return; }
+      const btn = $("#ev-add");
+      btn.disabled = true; btn.textContent = "Adding…";
+      try {
+        await addEvent({ title: f.title.trim(), date: f.date, time: f.time.trim(), location: f.location.trim(), description: f.description.trim() });
+        e.target.reset();
+        db = await loadAll(ss.get("spectrum_admin_key") || "");
+        render();
+        $("#ev-ok").textContent = "Added! It's now on the website.";
+      } catch {
+        $("#ev-err").textContent = "Couldn't add the event. Please try again.";
+      } finally {
+        btn.disabled = false; btn.textContent = "Add event to website";
+      }
+    });
+
+    // Two-step delete (no pop-up): first click asks, second click deletes.
+    $("#ev-items").addEventListener("click", async e => {
+      const b = e.target.closest(".del");
+      if (!b) return;
+      if (!b.classList.contains("confirm")) {
+        $$(".del.confirm").forEach(x => { x.classList.remove("confirm"); x.textContent = "Delete"; });
+        b.classList.add("confirm"); b.textContent = "Tap again to delete";
+        return;
+      }
+      b.disabled = true; b.textContent = "Deleting…";
+      try { await deleteEvent(b.dataset.id); db = await loadAll(ss.get("spectrum_admin_key") || ""); render(); }
+      catch { b.disabled = false; b.textContent = "Try again"; }
+    });
+
     $("#export").addEventListener("click", () => {
       const keys = tab === "members"
-        ? ["name", "email", "phone", "signupFor", "participant", "signature", "waiverSignedAt", "submittedAt"]
+        ? ["name", "email", "phone", "onSpectrum", "mediaConsent", "signature", "waiverSignedAt", "submittedAt"]
         : ["name", "email", "message", "submittedAt"];
       const csv = [keys.join(","), ...db[tab].map(r => keys.map(k => `"${String(r[k] ?? "").replace(/"/g, '""')}"`).join(","))].join("\n");
       const a = document.createElement("a");

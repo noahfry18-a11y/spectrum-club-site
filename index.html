@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Spectrum Club of NWI</title>
+  <meta name="description" content="The Spectrum Club of Northwest Indiana — a welcoming community where every piece belongs. Free membership for individuals and families." />
+  <link rel="icon" href="assets/favicon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Reusable puzzle piece shape -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="piece" viewBox="0 0 100 100">
+        <path d="M15 25h20a10 10 0 1 1 20 0h20v20a10 10 0 1 1 0 20v20H15z" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brand" aria-label="The Spectrum Club of NWI, home">
+        <img src="assets/logo.jpg" alt="" width="48" height="48" />
+        <span>The Spectrum Club <em>of NWI</em></span>
+      </a>
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="nav-links" class="nav-links" aria-label="Main">
+        <a href="#about">About Us</a>
+        <a href="#team">Our Team</a>
+        <a href="#membership">Membership</a>
+        <a href="#contact">Contact</a>
+        <a href="#membership" class="btn btn-sm">Join the Club</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="floaters" aria-hidden="true">
+        <svg class="fl fl-1"><use href="#piece" /></svg>
+        <svg class="fl fl-2"><use href="#piece" /></svg>
+        <svg class="fl fl-3"><use href="#piece" /></svg>
+        <svg class="fl fl-4"><use href="#piece" /></svg>
+        <svg class="fl fl-5"><use href="#piece" /></svg>
+      </div>
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="dot"></span> Northwest Indiana</p>
+          <h1>A place where <span class="hl">every piece</span> belongs.</h1>
+          <p class="lede">The Spectrum Club of NWI is a welcoming community where autistic adults can build friendships, try new activities, and feel accepted, valued, and included, right here in Northwest Indiana.</p>
+          <div class="hero-cta">
+            <a href="#membership" class="btn btn-lg">Become a member <span aria-hidden="true">→</span></a>
+            <a href="#about" class="btn btn-ghost btn-lg">Learn about us</a>
+          </div>
+          <p class="hero-note"><strong>Free to join.</strong> Sign up in about two minutes.</p>
+        </div>
+        <div class="hero-art">
+          <div class="logo-disc">
+            <img src="assets/logo.jpg" alt="The Spectrum Club of NWI logo: colorful puzzle pieces and people around the state of Indiana" width="560" height="560" />
+          </div>
+          <div class="chip chip-a"><svg><use href="#piece" /></svg> Friendship</div>
+          <div class="chip chip-b"><svg><use href="#piece" /></svg> Support</div>
+          <div class="chip chip-c"><svg><use href="#piece" /></svg> Belonging</div>
+        </div>
+      </div>
+      <div class="spectrum-bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <!-- DRAFT COPY: replace with the About / mission text the club sends over -->
+    <section id="about" class="section about">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">About Us</p>
+          <h2>Built by our community, for our community.</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>The Spectrum Club of NWI started with a simple belief: every individual deserves the opportunity to be themselves, build meaningful relationships, and know that they are never alone.</p>
+            <p>We create a welcoming environment across Northwest Indiana where autistic adults can come together, take part in activities, build friendships, and experience a true sense of belonging, and where families can connect with others who understand.</p>
+            <blockquote class="mission">
+              <svg aria-hidden="true"><use href="#piece" /></svg>
+              <p><span class="kicker">Our Mission</span>Creating connections, building friendships, and making the world a more understanding and inclusive place for everyone.</p>
+            </blockquote>
+          </div>
+          <ul class="values">
+            <li class="v v-red">
+              <svg aria-hidden="true"><use href="#piece" /></svg>
+              <h3>Belonging</h3>
+              <p>A judgment-free space where you can come as you are.</p>
+            </li>
+            <li class="v v-yellow">
+              <svg aria-hidden="true"><use href="#piece" /></svg>
+              <h3>Friendship</h3>
+              <p>Real connections with people who share your interests.</p>
+            </li>
+            <li class="v v-green">
+              <svg aria-hidden="true"><use href="#piece" /></svg>
+              <h3>Family Support</h3>
+              <p>A network of parents and caregivers who understand.</p>
+            </li>
+            <li class="v v-purple">
+              <svg aria-hidden="true"><use href="#piece" /></svg>
+              <h3>Local Fun</h3>
+              <p>Get-togethers and events right here in NWI.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TEAM ============ -->
+    <!-- Photos: swap the initials <span> for <img src="assets/team/NAME.jpg" alt="NAME" /> -->
+    <section id="team" class="section team">
+      <div class="wrap">
+        <div class="section-head center">
+          <p class="kicker">Our Team</p>
+          <h2>The people behind the club.</h2>
+          <p class="sub">For each of us, this mission is personal.</p>
+        </div>
+        <div class="team-grid">
+          <article class="member m-blue">
+            <div class="avatar"><img src="assets/team/zachary.jpg" alt="Zachary Jatkiewicz" style="object-position: 50% 30%" /></div>
+            <h3>Zachary Jatkiewicz</h3>
+            <p class="role">Board Member</p>
+            <p class="bio">A passionate autism advocate on the spectrum himself, Zachary brings a personal perspective and a deep understanding of the importance of acceptance, inclusion, and support.</p>
+            <details class="more">
+              <summary>Read Zachary's story</summary>
+              <p>Growing up on the autism spectrum shaped Zachary's passion for making a difference in the lives of others. Through his own experiences, he understands that autistic individuals deserve more than just acceptance; they deserve opportunities to build friendships, develop meaningful relationships, participate in their communities, and live fulfilling lives.</p>
+              <p>Zachary is currently pursuing an education in Social Work, where he hopes to gain the knowledge, skills, and experience to better support individuals and families. He hopes to use his education and personal experiences to advocate for individuals, connect them with resources, and help create opportunities for a better quality of life, for children and adults on the spectrum alike.</p>
+              <p>Through The Spectrum Club of NWI, Zachary hopes to help create a welcoming environment where autistic adults can come together, participate in activities, build friendships, and experience a true sense of belonging.</p>
+              <p>Zachary also organizes an annual 5K Autism Advocacy Run/Walk every April through his own foundation, the Jatkiewicz Foundation, in recognition of Autism Awareness Month. The event brings families, individuals, supporters, and community members together to promote awareness, encourage acceptance, and show support.</p>
+              <p>He is committed to speaking up for individuals on the autism spectrum whose experiences and needs are not always understood. He believes autistic individuals should have a voice in decisions that affect their lives and should never be defined by their diagnosis.</p>
+            </details>
+          </article>
+          <article class="member m-red">
+            <div class="avatar"><img src="assets/team/kathleen.jpg" alt="Kathleen Jatkiewicz" style="object-position: 45% 40%" /></div>
+            <h3>Kathleen Jatkiewicz</h3>
+            <p class="role">Parent &amp; Advocate</p>
+            <p class="bio">A dedicated mother, advocate, and supporter of individuals on the autism spectrum, Kathleen's passion comes from raising her son, Zachary, who is on the spectrum.</p>
+            <details class="more">
+              <summary>Read Kathleen's story</summary>
+              <p>Through her journey as a mother, Kathleen has gained a firsthand understanding of the challenges, experiences, and opportunities that autistic individuals and their families may face.</p>
+              <p>Her experiences inspired her to return to school to pursue a degree in education. She believes that education, patience, understanding, and compassion can make a meaningful difference in the lives of individuals with autism.</p>
+              <p>Today, Kathleen is passionate about extending that same love, encouragement, and support to other individuals on the spectrum, particularly adults. She believes autistic adults deserve opportunities to build friendships, develop independence, discover their abilities, and become active members of their communities.</p>
+              <p>Through The Spectrum Club of NWI, Kathleen hopes to help create a welcoming and supportive environment where autistic adults feel accepted, valued, understood, and included. She believes every individual deserves the opportunity to be themselves, build meaningful relationships, and know that they are never alone.</p>
+            </details>
+          </article>
+          <article class="member m-green">
+            <div class="avatar"><img src="assets/team/dawn.jpg" alt="Dawn Kazmierski" style="object-position: 50% 30%" /></div>
+            <h3>Dawn Kazmierski</h3>
+            <p class="role">Team Member</p>
+            <p class="bio">Bio coming soon.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MEMBERSHIP ============ -->
+    <section id="membership" class="section membership">
+      <div class="wrap member-grid">
+        <div class="member-pitch">
+          <p class="kicker light">Membership</p>
+          <h2>Join the club. <br />It's free.</h2>
+          <p>Become a member to stay in the loop on get-togethers, events, and everything happening in our community.</p>
+          <ul class="perks">
+            <li><span class="tick">✓</span> First to hear about events &amp; meetups</li>
+            <li><span class="tick">✓</span> Connect with local families &amp; friends</li>
+            <li><span class="tick">✓</span> Always free — no dues, ever</li>
+          </ul>
+          <div class="steps-legend" aria-hidden="true">
+            <div><b>1</b> Your info</div>
+            <div><b>2</b> Sign the waiver</div>
+            <div><b>3</b> You're in!</div>
+          </div>
+        </div>
+
+        <div class="card form-card">
+          <form id="join-form" novalidate>
+            <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="progress" aria-hidden="true"><span class="bar"></span></div>
+
+            <fieldset class="step is-active" data-step="1">
+              <legend>Tell us about you</legend>
+              <div class="field">
+                <label for="j-name">Full name</label>
+                <input id="j-name" name="name" type="text" autocomplete="name" required />
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="j-email">Email</label>
+                  <input id="j-email" name="email" type="email" autocomplete="email" required />
+                </div>
+                <div class="field">
+                  <label for="j-phone">Phone</label>
+                  <input id="j-phone" name="phone" type="tel" autocomplete="tel" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="j-for">Signing up for</label>
+                <select id="j-for" name="signupFor">
+                  <option>Myself</option>
+                  <option>My child</option>
+                  <option>Another family member</option>
+                  <option>Our whole family</option>
+                </select>
+              </div>
+              <div class="field hidden" id="participant-field">
+                <label for="j-participant">Participant name(s)</label>
+                <input id="j-participant" name="participant" type="text" />
+              </div>
+              <button type="button" class="btn btn-block" data-next>Continue to waiver <span aria-hidden="true">→</span></button>
+            </fieldset>
+
+            <fieldset class="step" data-step="2">
+              <legend>Participation waiver</legend>
+              <!-- PLACEHOLDER WAIVER: replace with the club's official waiver text -->
+              <div class="waiver" tabindex="0" aria-label="Waiver text, scrollable">
+                <h4>Release and Waiver of Liability</h4>
+                <p>In consideration of being permitted to participate in activities, events, and programs organized by The Spectrum Club of NWI ("the Club"), I, the undersigned, acknowledge and agree to the following:</p>
+                <p><b>1. Voluntary participation.</b> Participation in Club activities is voluntary. I understand that activities may involve physical activity and travel, and I accept the risks involved.</p>
+                <p><b>2. Release.</b> I release the Club, its organizers, volunteers, and partners from any and all claims arising from participation, except in cases of gross negligence.</p>
+                <p><b>3. Medical.</b> I authorize Club organizers to seek emergency medical treatment for the participant if I cannot be reached.</p>
+                <p><b>4. Photos.</b> I understand photos may be taken at events and may be shared on Club channels. I may opt out by notifying an organizer.</p>
+                <p><b>5. Guardianship.</b> If signing on behalf of a minor or dependent, I confirm I am their parent or legal guardian.</p>
+                <p class="muted">Sample wording for the design preview. The club's official waiver will replace this text.</p>
+              </div>
+              <label class="check">
+                <input type="checkbox" id="j-agree" name="agreed" required />
+                <span>I have read and agree to the waiver above.</span>
+              </label>
+              <div class="field">
+                <label for="j-sign">Type your full name to sign</label>
+                <input id="j-sign" name="signature" type="text" class="signature" required />
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn btn-ghost" data-back>← Back</button>
+                <button type="submit" class="btn">Complete sign-up</button>
+              </div>
+            </fieldset>
+
+            <div class="step done" data-step="3" role="status" aria-live="polite">
+              <div class="confetti" aria-hidden="true">
+                <svg><use href="#piece" /></svg><svg><use href="#piece" /></svg><svg><use href="#piece" /></svg><svg><use href="#piece" /></svg>
+              </div>
+              <h3>Welcome to the club, <span id="done-name">friend</span>!</h3>
+              <p>You're officially a member. We'll be in touch soon with upcoming events.</p>
+              <button type="button" class="btn btn-ghost" data-reset>Sign up someone else</button>
+            </div>
+            <p class="form-error" role="alert"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section contact">
+      <div class="wrap contact-grid">
+        <div>
+          <p class="kicker">Contact</p>
+          <h2>We'd love to hear from you.</h2>
+          <p class="sub">Questions about the club, events, or getting involved? Reach out any time — a real person will get back to you.</p>
+          <div class="contact-cards">
+            <a class="c-card" href="mailto:info@thespectrumclubofnwi.com">
+              <span class="ico ico-blue" aria-hidden="true">✉</span>
+              <span><small>Email</small>info@thespectrumclubofnwi.com</span>
+            </a>
+            <!-- PHONE: uncomment and fill in once the club sends their number
+            <a class="c-card" href="tel:+1XXXXXXXXXX">
+              <span class="ico ico-green" aria-hidden="true">☏</span>
+              <span><small>Phone</small>(XXX) XXX-XXXX</span>
+            </a>
+            -->
+            <a class="c-card" href="https://www.facebook.com/people/The-Spectrum-Club-Of-NWI/61595570840638/" target="_blank" rel="noopener">
+              <span class="ico ico-purple" aria-hidden="true">f</span>
+              <span><small>Facebook</small>The Spectrum Club Of NWI</span>
+            </a>
+          </div>
+        </div>
+        <form id="contact-form" class="card contact-form" novalidate>
+          <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="row">
+            <div class="field">
+              <label for="c-name">Name</label>
+              <input id="c-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="c-email">Email</label>
+              <input id="c-email" name="email" type="email" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="c-msg">Message</label>
+            <textarea id="c-msg" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-block">Send message</button>
+          <p class="form-ok" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="spectrum-bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="wrap footer-inner">
+      <a href="#top" class="brand">
+        <img src="assets/logo.jpg" alt="" width="44" height="44" />
+        <span>The Spectrum Club <em>of NWI</em></span>
+      </a>
+      <nav aria-label="Footer">
+        <a href="#about">About Us</a>
+        <a href="#team">Our Team</a>
+        <a href="#membership">Membership</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <p class="fine">© <span id="year"></span> The Spectrum Club of NWI · Northwest Indiana · <a href="admin.html">Admin</a></p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
